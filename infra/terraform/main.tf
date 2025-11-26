@@ -47,7 +47,10 @@ resource "google_artifact_registry_repository" "docker" {
 resource "github_actions_secret" "firebase_service_account" {
   repository      = var.github_repo
   secret_name     = "FIREBASE_SERVICE_ACCOUNT"
-  plaintext_value = var.firebase_service_account_json
+  plaintext_value = coalesce(
+    var.firebase_service_account_json,
+    base64decode(google_service_account_key.deployer.private_key)
+  )
 }
 
 resource "github_actions_secret" "firebase_project_id" {

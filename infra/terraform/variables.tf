@@ -29,6 +29,7 @@ variable "firebase_service_account_json" {
   description = "Service account JSON for Firebase Hosting deploys"
   type        = string
   sensitive   = true
+  default     = null
 }
 
 variable "gcp_deploy_sa_roles" {

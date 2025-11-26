@@ -3,15 +3,15 @@
 Follow these steps to get Denuo Web online with Firebase Hosting + Cloud Run, admin dashboard, and Stripe invoicing.
 
 ## 1) Create/prepare your Firebase + GCP project
-- Create a Firebase project and web app (copy the web config for later). Enable Firestore (Native) and Hosting.
-- GCP project must have billing enabled.
+- Create a Firebase project and web app (copy the web config for later). Enable Firestore (Native) and Hosting; turn on billing.
+- In this repo, log in and point the CLI at the right project: `firebase login` then `firebase use --add` → pick your project id (e.g., `denuo-web-site`) → alias `prod`/`default`. This prevents deploys from hitting the wrong project id.
 
-## 2) Option A: Automate setup with Terraform (recommended)
+## 2) Automate setup with Terraform
 - Open `infra/terraform/terraform.tfvars` and fill:
   - `project_id` and `firebase_project_id` (often the same)
   - `github_owner` and `github_repo`
   - `region` (e.g., `us-central1`)
-  - `firebase_service_account_json` (path or inline JSON for Firebase Hosting deploys)
+  - `firebase_service_account_json` (optional; if omitted Terraform reuses the generated deployer key for Hosting deploys)
   - `stripe_secret_key` (optional, for invoicing API)
 - Run:
   ```bash
@@ -21,16 +21,6 @@ Follow these steps to get Denuo Web online with Firebase Hosting + Cloud Run, ad
   ```
 - Terraform will enable required APIs, create a deploy service account + key, set up Artifact Registry, and push GitHub secrets (`FIREBASE_SERVICE_ACCOUNT`, `FIREBASE_PROJECT_ID`, `GCP_PROJECT_ID`, `GCP_REGION`, `GCP_SERVICE_ACCOUNT_KEY`, and `STRIPE_SECRET_KEY` if provided).
 
-## 2) Option B: Manual secrets (skip Terraform)
-- Create a deploy service account in GCP with roles: Run Admin, IAM Service Account User, Cloud Build Editor, Artifact Registry Admin, Firebase Hosting Admin, Firebase Rules Admin.
-- Download its JSON key and add these GitHub repo secrets:
-  - `FIREBASE_SERVICE_ACCOUNT` – deploy SA JSON
-  - `FIREBASE_PROJECT_ID` – Firebase project id
-  - `GCP_PROJECT_ID` – GCP project id
-  - `GCP_REGION` – e.g., `us-central1`
-  - `GCP_SERVICE_ACCOUNT_KEY` – same JSON key (for Cloud Run deploy)
-  - `STRIPE_SECRET_KEY` – your Stripe secret (needed for invoicing)
-
 ## 3) Frontend env (web/.env)
 - Copy `web/.env.example` to `web/.env` and paste your Firebase web config (apiKey, authDomain, etc.).
 - Optional: set `VITE_USE_FIREBASE_EMULATORS=true` to develop against local emulators.
@@ -39,8 +29,8 @@ Follow these steps to get Denuo Web online with Firebase Hosting + Cloud Run, ad
 - Ensure Cloud Run service has env vars `FIREBASE_SERVICE_ACCOUNT` (JSON) and `STRIPE_SECRET_KEY` (if using invoicing).
 
 ## 5) Deploy
-- Cloud Run API: push to `main` (or run) `.github/workflows/deploy-cloudrun.yml` to build/deploy `api`.
-- Firebase Hosting: push to `main` (or run) `.github/workflows/deploy-hosting.yml` to build/deploy `web` and proxy `/api/**` to Cloud Run.
+- Cloud Run API: push to `main` (or run) `.github/workflows/deploy-cloudrun.yml` to build/deploy `api` and create the `denuo-api` service in `us-central1`.
+- Firebase Hosting: push to `main` (or run) `.github/workflows/deploy-hosting.yml` to build/deploy `web` and proxy `/api/**` to Cloud Run. Hosting deploys assume the Cloud Run API is enabled and the `denuo-api` service already exists.
 
 ## 6) Admin access
 - Create a Firebase Auth user; set `admin: true` via:

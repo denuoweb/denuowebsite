@@ -2,6 +2,13 @@
 
 A Firebase + Google Cloud Run powered site for Denuo Web, LLC. The frontend is a Vite/React app with a Firebase-authenticated admin dashboard that edits Firestore-driven content. The backend is a minimal Express API deployed to Cloud Run for contact capture and admin utilities. CI/CD is wired through GitHub Actions.
 
+## Prerequisites
+- Node.js 20 (use `nvm use 20` or install via nvm) + npm
+- Firebase CLI: `npm install -g firebase-tools`
+- Terraform >= 1.6 (if using `infra/terraform`)
+- Google Cloud SDK (`gcloud`) if you plan to deploy/run Cloud Run manually or authenticate Terraform via ADC
+- GitHub access to set repo secrets for CI/CD
+
 ## Project layout
 - `web/` – React + Vite SPA with Firebase Auth + Firestore-driven content and admin dashboard
 - `api/` – Express API for Cloud Run (`/health`, `/contact`, `/admin/status`)
@@ -66,7 +73,7 @@ node api/scripts/setAdminClaim.js --email=you@example.com
 ```
 
 ## GitHub Actions / secrets
-Set these repo secrets before enabling CI/CD:
+Set these repo secrets before enabling CI/CD (Terraform will populate them by default using the generated deployer key for both Hosting and Cloud Run):
 - `FIREBASE_SERVICE_ACCOUNT` – JSON for a Firebase Hosting deploy service account
 - `FIREBASE_PROJECT_ID` – Firebase project id
 - `GCP_SERVICE_ACCOUNT_KEY` – JSON key with Cloud Run + Artifact Registry permissions

@@ -13,7 +13,7 @@
 - `billing_account` (string, optional) – only if creating a new project
 - `region` (string) – default `us-central1`
 - `github_owner` / `github_repo` (string) – repo to receive secrets
-- `firebase_service_account_json` (sensitive) – JSON for Firebase Hosting deploys
+- `firebase_service_account_json` (sensitive, optional) – override for Firebase Hosting deploys; defaults to the generated deployer key
 - `stripe_secret_key` (sensitive, optional) – Stripe secret for invoicing API
 - `gcp_deploy_sa_roles` (list) – roles for deploy SA (pre-set)
 
@@ -31,7 +31,8 @@ project_id              = "your-gcp-project"
 firebase_project_id     = "your-firebase-project"
 github_owner            = "Denuo-Web"
 github_repo             = "denuowebsite"
-firebase_service_account_json = file("../path/to/firebase-deploy-sa.json")
+# optional override; otherwise the generated deployer key is used for Hosting deploys
+# firebase_service_account_json = file("../path/to/firebase-deploy-sa.json")
 stripe_secret_key       = "sk_live_..." # optional
 VARS
 terraform init

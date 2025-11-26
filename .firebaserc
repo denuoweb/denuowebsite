@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "denuo-web-prod"
-  }
+    "default": "denuo-web-site",
+    "prod": "denuo-web-site"
+  },
+  "targets": {},
+  "etags": {}
 }

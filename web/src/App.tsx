@@ -117,6 +117,7 @@ function App() {
 
   return (
     <Theme
+      className="app-shell"
       appearance={themeState.appearance}
       accentColor={themeState.accentColor}
       grayColor={themeState.grayColor}

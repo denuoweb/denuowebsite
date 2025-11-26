@@ -1,1 +1,19 @@
-/* Styles are provided by Radix Themes components. */
+.app-shell {
+  --glow-strong: var(--accent-a4);
+  --glow-mid: color-mix(in srgb, var(--accent-3) 20%, transparent);
+  --glow-neutral: color-mix(in srgb, var(--gray-a3) 55%, transparent);
+
+  min-height: 100vh;
+  background-color: var(--color-background);
+  background-image:
+    radial-gradient(120% 80% at 0% 0%, var(--glow-strong), transparent 60%),
+    radial-gradient(110% 90% at 100% 0%, var(--glow-mid), transparent 62%),
+    radial-gradient(130% 120% at 20% 100%, var(--glow-neutral), transparent 75%);
+  background-attachment: fixed;
+}
+
+.app-shell.dark {
+  --glow-strong: var(--accent-a5);
+  --glow-mid: color-mix(in srgb, var(--accent-10) 18%, transparent);
+  --glow-neutral: color-mix(in srgb, var(--gray-a6) 40%, transparent);
+}

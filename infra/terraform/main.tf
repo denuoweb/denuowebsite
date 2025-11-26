@@ -95,7 +95,11 @@ resource "github_actions_secret" "stripe_secret_key" {
 }
 
 resource "github_actions_variable" "vite_env" {
-  for_each      = { for k, v in local.vite_env_vars : k => v if v != null }
+  for_each = {
+    for k, v in local.vite_env_vars :
+    k => try(nonsensitive(v), v)
+    if v != null
+  }
   repository    = var.github_repo
   variable_name = each.key
   value         = each.value

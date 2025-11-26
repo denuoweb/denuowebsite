@@ -81,6 +81,7 @@ Set these repo secrets before enabling CI/CD (Terraform will populate them by de
 - `GCP_REGION` – Cloud Run region (e.g., `us-central1`)
 - `STRIPE_SECRET_KEY` – Stripe secret (for invoicing API)
 - A sample `.env.example` at repo root lists these keys (for local reference only; do not commit secrets).
+- Set GitHub Actions repository variables (or secrets) for the Vite web config so production builds enable auth: `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID`, and `VITE_USE_FIREBASE_EMULATORS` (usually `false`).
 
 `deploy-hosting.yml` builds `web` and deploys Hosting. `deploy-cloudrun.yml` builds and deploys `api` to Cloud Run when `api/**` changes.
 

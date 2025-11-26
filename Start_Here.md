@@ -23,6 +23,7 @@ Follow these steps to get Denuo Web online with Firebase Hosting + Cloud Run, ad
 
 ## 3) Frontend env (web/.env)
 - Copy `web/.env.example` to `web/.env` and paste your Firebase web config (apiKey, authDomain, etc.).
+- Add the same Vite variables as GitHub Actions repo variables (or secrets) so CI builds with auth enabled: `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID` (and optionally `VITE_USE_FIREBASE_EMULATORS=false`).
 - Optional: set `VITE_USE_FIREBASE_EMULATORS=true` to develop against local emulators.
 
 ## 4) API env (Cloud Run)

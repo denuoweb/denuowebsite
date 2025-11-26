@@ -32,6 +32,54 @@ variable "firebase_service_account_json" {
   default     = null
 }
 
+variable "vite_firebase_api_key" {
+  description = "Vite/Firebase web config: apiKey"
+  type        = string
+  sensitive   = true
+  default     = null
+}
+
+variable "vite_firebase_auth_domain" {
+  description = "Vite/Firebase web config: authDomain"
+  type        = string
+  sensitive   = true
+  default     = null
+}
+
+variable "vite_firebase_project_id" {
+  description = "Vite/Firebase web config: projectId"
+  type        = string
+  sensitive   = true
+  default     = null
+}
+
+variable "vite_firebase_storage_bucket" {
+  description = "Vite/Firebase web config: storageBucket"
+  type        = string
+  sensitive   = true
+  default     = null
+}
+
+variable "vite_firebase_messaging_sender_id" {
+  description = "Vite/Firebase web config: messagingSenderId"
+  type        = string
+  sensitive   = true
+  default     = null
+}
+
+variable "vite_firebase_app_id" {
+  description = "Vite/Firebase web config: appId"
+  type        = string
+  sensitive   = true
+  default     = null
+}
+
+variable "vite_use_firebase_emulators" {
+  description = "Vite flag to use Firebase emulators (string true/false)"
+  type        = string
+  default     = "false"
+}
+
 variable "gcp_deploy_sa_roles" {
   description = "Roles to grant the deploy service account"
   type        = list(string)

@@ -15,6 +15,14 @@
 - `github_owner` / `github_repo` (string) – repo to receive secrets
 - `firebase_service_account_json` (sensitive, optional) – override for Firebase Hosting deploys; defaults to the generated deployer key
 - `stripe_secret_key` (sensitive, optional) – Stripe secret for invoicing API
+- Vite web config (optional; set to push GitHub Actions variables used by Hosting builds):
+  - `vite_firebase_api_key`
+  - `vite_firebase_auth_domain`
+  - `vite_firebase_project_id` (defaults to `firebase_project_id` if omitted)
+  - `vite_firebase_storage_bucket`
+  - `vite_firebase_messaging_sender_id`
+  - `vite_firebase_app_id`
+  - `vite_use_firebase_emulators` (default `"false"`)
 - `gcp_deploy_sa_roles` (list) – roles for deploy SA (pre-set)
 
 ## What it creates
@@ -34,6 +42,14 @@ github_repo             = "denuowebsite"
 # optional override; otherwise the generated deployer key is used for Hosting deploys
 # firebase_service_account_json = file("../path/to/firebase-deploy-sa.json")
 stripe_secret_key       = "sk_live_..." # optional
+# optional: push Vite Firebase config into GitHub Actions variables for Hosting builds
+# vite_firebase_api_key            = "AIza..."
+# vite_firebase_auth_domain        = "your-project.firebaseapp.com"
+# vite_firebase_project_id         = "your-project"
+# vite_firebase_storage_bucket     = "your-project.appspot.com"
+# vite_firebase_messaging_sender_id = "1234567890"
+# vite_firebase_app_id             = "1:1234567890:web:abcdef"
+# vite_use_firebase_emulators      = "false"
 VARS
 terraform init
 terraform apply

@@ -13,6 +13,7 @@ Follow these steps to get Denuo Web online with Firebase Hosting + Cloud Run, ad
   - `region` (e.g., `us-central1`)
   - `firebase_service_account_json` (optional; if omitted Terraform reuses the generated deployer key for Hosting deploys)
   - `stripe_secret_key` (optional, for invoicing API)
+  - Optional Vite web config to push into GitHub Actions variables (used by Hosting builds): `vite_firebase_api_key`, `vite_firebase_auth_domain`, `vite_firebase_project_id` (defaults to `firebase_project_id`), `vite_firebase_storage_bucket`, `vite_firebase_messaging_sender_id`, `vite_firebase_app_id`, `vite_use_firebase_emulators` (default `"false"`).
 - Run:
   ```bash
   cd infra/terraform

@@ -9,6 +9,16 @@ locals {
     "serviceusage.googleapis.com",
     "cloudresourcemanager.googleapis.com"
   ]
+
+  vite_env_vars = {
+    VITE_FIREBASE_API_KEY            = var.vite_firebase_api_key
+    VITE_FIREBASE_AUTH_DOMAIN        = var.vite_firebase_auth_domain
+    VITE_FIREBASE_PROJECT_ID         = coalesce(var.vite_firebase_project_id, var.firebase_project_id)
+    VITE_FIREBASE_STORAGE_BUCKET     = var.vite_firebase_storage_bucket
+    VITE_FIREBASE_MESSAGING_SENDER_ID = var.vite_firebase_messaging_sender_id
+    VITE_FIREBASE_APP_ID             = var.vite_firebase_app_id
+    VITE_USE_FIREBASE_EMULATORS      = var.vite_use_firebase_emulators
+  }
 }
 
 resource "google_project_service" "enabled" {
@@ -82,6 +92,13 @@ resource "github_actions_secret" "stripe_secret_key" {
   repository      = var.github_repo
   secret_name     = "STRIPE_SECRET_KEY"
   plaintext_value = var.stripe_secret_key
+}
+
+resource "github_actions_variable" "vite_env" {
+  for_each      = { for k, v in local.vite_env_vars : k => v if v != null }
+  repository    = var.github_repo
+  variable_name = each.key
+  value         = each.value
 }
 
 output "deploy_service_account_email" {

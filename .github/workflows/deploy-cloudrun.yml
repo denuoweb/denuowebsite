@@ -39,7 +39,7 @@ jobs:
           region: ${{ env.REGION }}
           source: ./api
           project_id: ${{ env.PROJECT_ID }}
-          allow_unauthenticated: true
+          flags: --allow-unauthenticated
 
       - name: Expose API URL
         run: |

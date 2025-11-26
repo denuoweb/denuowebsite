@@ -158,6 +158,72 @@ const AdminPage = ({
     setDraft({ ...draft, projects: [...draft.projects, newProject] })
   }
 
+  if (!user) {
+    return (
+      <div className="admin-shell">
+        <header className="top-nav">
+          <div className="brand">
+            <span className="dot" />
+            <span>Admin · Denuo Web</span>
+          </div>
+          <nav className="nav-links">
+            <Link to="/">{copy.nav.backToSite}</Link>
+          </nav>
+          <div className="nav-actions">
+            <Tooltip content={copy.nav.themeToggle}>
+              <IconButton variant="soft" onClick={onToggleTheme} aria-label={copy.nav.themeToggle}>
+                {appearance === 'dark' ? <SunIcon /> : <MoonIcon />}
+              </IconButton>
+            </Tooltip>
+            <Tooltip content={copy.nav.languageToggle}>
+              <IconButton variant="soft" onClick={onToggleLanguage} aria-label={copy.nav.languageToggle}>
+                <GlobeIcon />
+                <span className="lang-code">{language === 'en' ? 'EN' : '日本'}</span>
+              </IconButton>
+            </Tooltip>
+          </div>
+        </header>
+        <div className="panel">
+          <div className="panel-header">
+            <div>
+              <p className="kicker">Content dashboard</p>
+              <h1>Admin sign in</h1>
+              {!isConfigured && <p className="warning">Set VITE_FIREBASE_* env vars to enable auth + saves.</p>}
+            </div>
+            <div className="auth-box">
+              <form className="auth-form" onSubmit={handleLogin}>
+                <input
+                  type="email"
+                  placeholder="admin email"
+                  value={credentials.email}
+                  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+                />
+                <input
+                  type="password"
+                  placeholder="password"
+                  value={credentials.password}
+                  onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+                />
+                <button className="btn primary" type="submit" disabled={!isConfigured}>
+                  Sign in
+                </button>
+              </form>
+              {authError && <p className="warning">{authError}</p>}
+            </div>
+          </div>
+          <div className="form-grid">
+            <section className="form-card">
+              <div className="form-header">
+                <h2>Access restricted</h2>
+                <p className="muted">Sign in with an admin account to edit site content.</p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="admin-shell">
       <header className="top-nav">
@@ -191,36 +257,12 @@ const AdminPage = ({
             {!isConfigured && <p className="warning">Set VITE_FIREBASE_* env vars to enable auth + saves.</p>}
           </div>
           <div className="auth-box">
-            {user ? (
-              <>
-                <p className="muted">Signed in as {user.email}</p>
-                <button className="btn ghost" onClick={handleSignOut}>
-                  Sign out
-                </button>
-              </>
-            ) : (
-              <form className="auth-form" onSubmit={handleLogin}>
-                <input
-                  type="email"
-                  placeholder="admin email"
-                  value={credentials.email}
-                  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
-                />
-                <input
-                  type="password"
-                  placeholder="password"
-                  value={credentials.password}
-                  onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-                />
-                <button className="btn primary" type="submit" disabled={!isConfigured}>
-                  Sign in
-                </button>
-              </form>
-            )}
-            {authError && <p className="warning">{authError}</p>}
+            <p className="muted">Signed in as {user.email}</p>
+            <button className="btn ghost" onClick={handleSignOut}>
+              Sign out
+            </button>
           </div>
         </div>
-
         <div className="form-grid">
           <section className="form-card">
             <div className="form-header">
